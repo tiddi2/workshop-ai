@@ -41,6 +41,12 @@ export default function Home() {
     textAreaRef.current?.focus();
   }, []);
 
+  useEffect(() => {
+    if (loading === false) {
+      textAreaRef.current?.focus();
+    }
+  }, [loading]);
+
   //handle form submission
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -66,6 +72,8 @@ export default function Home() {
     }));
 
     setLoading(true);
+    smoothScrollToBottom(document.getElementById('chat-element'));
+
     setQuery('');
 
     try {
@@ -81,7 +89,6 @@ export default function Home() {
       });
       const data = await response.json();
       console.log('data', data);
-
       if (data.error) {
         setError(data.error);
       } else {
@@ -100,9 +107,8 @@ export default function Home() {
       console.log('messageState', messageState);
 
       setLoading(false);
-
       //scroll to bottom
-      messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+      smoothScrollToBottom(document.getElementById('chat-element'));
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
@@ -119,6 +125,25 @@ export default function Home() {
     }
   };
 
+  const smoothScrollToBottom = (element: any) => {
+    let from = element.scrollTop;
+    let by = element.scrollHeight - from;
+    let start = performance.now();
+
+    requestAnimationFrame(function step(timestamp) {
+      let time = timestamp - start;
+      let fraction = time / 1000;
+
+      if (fraction > 1) fraction = 1;
+
+      element.scrollTop = from + fraction * by;
+
+      if (fraction < 1) {
+        requestAnimationFrame(step);
+      }
+    });
+  };
+
   return (
     <>
       <Layout>
@@ -128,7 +153,11 @@ export default function Home() {
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
-              <div ref={messageListRef} className={styles.messagelist}>
+              <div
+                ref={messageListRef}
+                id="chat-element"
+                className={styles.messagelist}
+              >
                 {messages.map((message, index) => {
                   let icon;
                   let className;
@@ -259,11 +288,6 @@ export default function Home() {
             )}
           </main>
         </div>
-        <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
-          </a>
-        </footer>
       </Layout>
     </>
   );
