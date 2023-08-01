@@ -1,109 +1,50 @@
-# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your PDF Files
+# Workshop AI
 
-Use the new GPT-4 api to build a chatGPT chatbot for multiple Large PDF files.
+Welcome to the Workshop AI repository! This project is designed to provide a hands-on experience with AI technologies. Dive into the code and explore the different functionalities we've implemented.
 
-Tech stack used includes LangChain, Pinecone, Typescript, Openai, and Next.js. LangChain is a framework that makes it easier to build scalable AI/LLM apps and chatbots. Pinecone is a vectorstore for storing embeddings and your PDF in text to later retrieve similar docs.
+## Prerequisites
 
-[Tutorial video](https://www.youtube.com/watch?v=ih9PBGVVOO4)
+- Node.js (v14.0 or higher)
+- Yarn package manager
 
-[Join the discord if you have questions](https://discord.gg/E4Mc77qwjm)
+## Installation
 
-The visual guide of this repo and tutorial is in the `visual guide` folder.
+Follow the steps below to set up the project on your local machine:
 
-**If you run into errors, please review the troubleshooting section further down this page.**
+1. **Clone the repository:**
 
-Prelude: Please make sure you have already downloaded node on your system and the version is 18 or greater.
+   ```
+   git clone https://github.com/tiddi2/workshop-ai.git
+   cd workshop-ai
+   ```
 
-## Development
+2. **Create a `.env` file:** Contact Tidemann to receive the necessary environment variables or check the privnote they've sent. Create a `.env` file in the root directory of the project and paste the contents inside.
 
-1. Clone the repo or download the ZIP
+3. **Install dependencies:**
 
-```
-git clone [github https url]
-```
+   ```
+   yarn
+   ```
 
-2. Install packages
+4. **Start the development server:**
+   ```
+   yarn run dev
+   ```
 
-First run `npm install yarn -g` to install yarn globally (if you haven't already).
+The application should now be running and accessible at `http://localhost:3000` (or the port specified in your `.env` file).
 
-Then run:
+## Contributing
 
-```
-yarn install
-```
+We welcome contributions! If you have any ideas or suggestions, please feel free to open an issue or create a pull request.
 
-After installation, you should now see a `node_modules` folder.
+## License
 
-3. Set up your `.env` file
+[MIT](LICENSE) - see the file [LICENSE](LICENSE) for details.
 
-- Copy `.env.example` into `.env`
-Then get the keys from Tidemann
-  Your `.env` file should look like this:
+## Contact
 
-```
-AZURE_OPENAI_API_KEY=
-AZURE_OPENAI_API_INSTANCE_NAME=
-AZURE_OPENAI_API_DEPLOYMENT_NAME=
-AZURE_OPENAI_API_DEPLOYMENT_NAME_GPT35=
-AZURE_OPENAI_API_VERSION=
-AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME=
+Feel free to reach out with any questions or feedback.
 
+---
 
-# Update these with your pinecone details from your dashboard. 
-# PINECONE_INDEX_NAME is in the indexes tab under "index name" in blue
-# PINECONE_ENVIRONMENT is in indexes tab under "Environment". Example: "us-east1-gcp"
-PINECONE_API_KEY=
-PINECONE_ENVIRONMENT=
-PINECONE_INDEX_NAME=
-
-
-```
-
-- Visit [openai](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) to retrieve API keys and insert into your `.env` file.
-- Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
-
-4. In the `config` folder, replace the `PINECONE_NAME_SPACE` with a `namespace` where you'd like to store your embeddings on Pinecone when you run `npm run ingest`. This namespace will later be used for queries and retrieval.
-
-5. In `utils/makechain.ts` chain change the `QA_PROMPT` for your own usecase. Change `modelName` in `new OpenAI` to `gpt-4`, if you have access to `gpt-4` api. Please verify outside this repo that you have access to `gpt-4` api, otherwise the application will not work.
-
-## Convert your PDF files to embeddings
-
-**This repo can load multiple PDF files**
-
-1. Inside `docs` folder, add your pdf files or folders that contain pdf files.
-
-2. Run the script `npm run ingest` to 'ingest' and embed your docs. If you run into errors troubleshoot below.
-
-3. Check Pinecone dashboard to verify your namespace and vectors have been added.
-
-## Run the app
-
-Once you've verified that the embeddings and content have been successfully added to your Pinecone, you can run the app `npm run dev` to launch the local dev environment, and then type a question in the chat interface.
-
-## Troubleshooting
-
-In general, keep an eye out in the `issues` and `discussions` section of this repo for solutions.
-
-**General errors**
-
-- Make sure you're running the latest Node version. Run `node -v`
-- Try a different PDF or convert your PDF to text first. It's possible your PDF is corrupted, scanned, or requires OCR to convert to text.
-- `Console.log` the `env` variables and make sure they are exposed.
-- Make sure you're using the same versions of LangChain and Pinecone as this repo.
-- Check that you've created an `.env` file that contains your valid (and working) API keys, environment and index name.
-- If you change `modelName` in `OpenAI`, make sure you have access to the api for the appropriate model.
-- Make sure you have enough OpenAI credits and a valid card on your billings account.
-- Check that you don't have multiple OPENAPI keys in your global environment. If you do, the local `env` file from the project will be overwritten by systems `env` variable.
-- Try to hard code your API keys into the `process.env` variables if there are still issues.
-
-**Pinecone errors**
-
-- Make sure your pinecone dashboard `environment` and `index` matches the one in the `pinecone.ts` and `.env` files.
-- Check that you've set the vector dimensions to `1536`.
-- Make sure your pinecone namespace is in lowercase.
-- Pinecone indexes of users on the Starter(free) plan are deleted after 7 days of inactivity. To prevent this, send an API request to Pinecone to reset the counter before 7 days.
-- Retry from scratch with a new Pinecone project, index, and cloned repo.
-
-## Credit
-
-Frontend of this repo is inspired by [langchain-chat-nextjs](https://github.com/zahidkhawaja/langchain-chat-nextjs)
+You can simply copy and paste the above content into a README.md file in your repository. If you have any specific details you'd like to include or any sections you'd like me to modify, please let me know!
